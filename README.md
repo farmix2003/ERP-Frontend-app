@@ -88,22 +88,27 @@ npm run dev
 
 This project is built to:
 
-simulate real-world frontend development
-demonstrate mid-level React skills
-showcase clean architecture and best practices
-📌 Future Improvements
-Real backend integration (Spring Boot / Node.js)
-Role-based access control (admin/user)
-Unit & integration testing
-WebSocket / real-time updates
-Advanced analytics
+- simulate real-world frontend development
+- demonstrate mid-level React skills
+- showcase clean architecture and best practices
+
+--- 
+
+### 📌 Future Improvements
+- Real backend integration (Spring Boot / Node.js)
+- Role-based access control (admin/user)
+- Unit & integration testing
+- WebSocket / real-time updates
+- Advanced analytics
+
+--- 
 
 ### 👨‍💻 Author
 
-- ***Farrukh Tugonov***
+**Farrukh Tugonov:**
 
-Frontend & Fullstack Developer (React + Spring Boot)
-Focused on building scalable, production-ready applications
+- Frontend & Fullstack Developer (React + Spring Boot)
+- Focused on building scalable, production-ready applications
 
 ---
 
