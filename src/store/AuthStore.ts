@@ -13,7 +13,7 @@ interface AuthState {
   user:User | null,
   isAuthenticated:boolean,
   login:(email:string, password:string) => Promise<void>,
-  logout:() => void
+  logout:() => void,
 }
 
 const getTokenFromLocalStorage = localStorage.getItem('authToken')
@@ -39,11 +39,21 @@ export const useAuthStore = create<AuthState>(set =>({
     }
     localStorage.setItem('authToken', fakeToken)
     localStorage.setItem('authUser', JSON.stringify(fakeUser))
+
     set({
       token: fakeToken,
       user: fakeUser,
       isAuthenticated: true
     })
+    setTimeout(() => {
+      localStorage.removeItem('authToken')
+      localStorage.removeItem('authUser')
+      set({
+        token: null,
+        user: null,
+        isAuthenticated: false
+      })
+    },1000*60*60*24) // Auto logout after 24 hours
   },
   logout: () => {
     localStorage.removeItem('authToken')
