@@ -1,4 +1,4 @@
-import type { UserItem } from "../../../data/users";
+import type { UserItem } from "../../../data/Users";
 
 interface UsersTableProps {
   users: UserItem[];

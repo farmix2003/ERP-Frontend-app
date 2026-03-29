@@ -6,18 +6,27 @@ const ITEMS_PER_PAGE = 5
 const UsersPage = () => {
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
+  const [roleFilter, setRoleFilter] = useState("All");
+  const [statusFilter, setStatusFilter] = useState("All");
 
   const filteredUsers = useMemo(() =>{
     return MockUsers.filter((user) =>{
       const searchTerm = search.toLowerCase();
-      return (
+      const matchesSearch =
         user.name.toLowerCase().includes(searchTerm) ||        
         user.email.toLowerCase().includes(searchTerm)||
         user.role.toLowerCase().includes(searchTerm) ||
         user.status.toLowerCase().includes(searchTerm)
-      );
+      
+      const matchesRole = roleFilter === "All" || user.role === roleFilter;
+        
+      const matchesStatus = statusFilter === "All" || user.status === statusFilter;
+        
+      return matchesRole && matchesStatus && matchesSearch;
     })
-  },[search])
+
+
+  },[search,roleFilter, statusFilter])
  const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
  const paginatedUsers = useMemo(() =>{
   const start = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -29,6 +38,15 @@ const UsersPage = () => {
   setSearch(val)
   setCurrentPage(1)
  }
+
+ const handleRoleFilterChange = (val:string) =>{
+  setRoleFilter(val)
+  setCurrentPage(1)
+ }
+ const handleStatusFilterChange = (val:string) =>{
+    setStatusFilter(val)
+    setCurrentPage(1)
+  }
 
   return (
     <div className="space-y-6">
@@ -48,6 +66,30 @@ const UsersPage = () => {
            onChange={(e) => handleSearchChange(e.target.value)}
           />
         </div>
+        
+        <div className="flex flex-col gap-3 sm:flex-row">
+          <select 
+          value={roleFilter} 
+          onChange={(e) => handleRoleFilterChange(e.target.value)}
+          className="rounded-xl border border-gray-300 px-4 py-2.5 text-sm text-gray-700 outline-none focus:border-gray-500"
+            >
+            <option value="All">All Roles</option>
+            <option value="Admin">Admin</option>
+            <option value="Manager">Manager</option>
+            <option value="Support">Support</option>
+            </select>
+
+          <select
+          value={statusFilter} 
+          onChange={(e) => handleStatusFilterChange(e.target.value)}
+          className="rounded-xl border border-gray-300 px-4 py-2.5 text-sm text-gray-700 outline-none focus:border-gray-500"
+            >
+            <option value="All">All Statuses</option>
+            <option value="Active">Active</option>
+            <option value="Inactive">Inactive</option>
+            </select>
+        </div>
+
         <div className="text-sm text-gray-500">
           Total Users: <span className="font-semibold text-gray-900">{filteredUsers.length}</span>
         </div>
@@ -63,14 +105,14 @@ const UsersPage = () => {
 
         <div className="flex gap-2">
           <button
-            className="rounded-md cursor-pointer bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300"
+            className="rounded-md cursor-pointer disabled:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300"
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
           >
             Previous
           </button>
           <button
-            className="rounded-md cursor-pointer bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300"
+            className="rounded-md cursor-pointer disabled:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300"
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages || 1))}
             disabled={currentPage === (totalPages || 1)}
           >
