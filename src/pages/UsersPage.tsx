@@ -1,16 +1,19 @@
 import { useMemo, useState } from "react";
-import {users as MockUsers} from './../data/Users'
-import { Search } from "lucide-react";
+import {users as initialUsers, type UserItem} from './../data/Users'
+import { Plus, Search } from "lucide-react";
 import UsersTable from "../features/users/components/UsersTable";
+import CreateUserModal from "../features/users/components/CreateUserModal";
 const ITEMS_PER_PAGE = 5
 const UsersPage = () => {
+  const [users, setUsers] = useState<UserItem[]>(initialUsers);
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [roleFilter, setRoleFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
+  const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
 
   const filteredUsers = useMemo(() =>{
-    return MockUsers.filter((user) =>{
+    return users.filter((user) =>{
       const searchTerm = search.toLowerCase();
       const matchesSearch =
         user.name.toLowerCase().includes(searchTerm) ||        
@@ -26,7 +29,7 @@ const UsersPage = () => {
     })
 
 
-  },[search,roleFilter, statusFilter])
+  },[users, search,roleFilter, statusFilter])
  const totalPages = Math.ceil(filteredUsers.length / ITEMS_PER_PAGE);
  const paginatedUsers = useMemo(() =>{
   const start = (currentPage - 1) * ITEMS_PER_PAGE;
@@ -48,11 +51,30 @@ const UsersPage = () => {
     setCurrentPage(1)
   }
 
+  const handleCreateUser = (user: Omit<UserItem, "id">) =>{
+    const newUser: UserItem = {
+      id: users.length + 1,
+      ...user
+    }
+    setUsers((prev) => [...prev, newUser])
+    setCurrentPage(1)
+  }
+
   return (
     <div className="space-y-6">
+      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
           <h2 className="text-2xl font-bold text-gray-900">Users</h2>
           <p className="text-gray-600">Manage system users and their acces</p>
+      </div>
+      
+      <button
+          onClick={() => setIsCreateModalOpen(true)}
+          className="inline-flex items-center gap-2 rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-800"
+          >
+          <Plus size={18} />
+          Add User
+      </button>
       </div>
 
       <div className="flex flex-col gap-4 roundend-2xl border border-gray-100 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
@@ -120,6 +142,11 @@ const UsersPage = () => {
           </button>
         </div>
       </div>
+        <CreateUserModal
+        isOpen={isCreateModalOpen}
+        onClose={() => setIsCreateModalOpen(false)}
+        onCreateUser={handleCreateUser}
+      />
     </div>
   );
 };

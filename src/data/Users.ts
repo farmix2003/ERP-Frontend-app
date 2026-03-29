@@ -23,3 +23,6 @@ export const users: UserItem[] = [
   { id: 14, name: "Amelia Lewis", email: "amelia.l@example.com", role: "Support", status: "Active" },
   { id: 15, name: "Benjamin Walker", email: "BenW@example.com", role: "Admin", status: "Active" },
 ];
+
+export type UserRole = UserItem["role"];
+export type UserStatus = UserItem["status"];
