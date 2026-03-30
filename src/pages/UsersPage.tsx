@@ -1,18 +1,41 @@
-import { useMemo, useState } from "react";
-import {users as initialUsers, type UserItem} from './../data/Users'
+import { useEffect, useMemo, useState } from "react";
+import {users as initialUsers} from './../data/Users'
+import type { UserItem } from "../data/Users";
 import { Plus, Search } from "lucide-react";
 import UsersTable from "../features/users/components/UsersTable";
 import CreateUserModal from "../features/users/components/CreateUserModal";
 import EditUserModal from "../features/users/components/EditUserModal";
+
+
 const ITEMS_PER_PAGE = 5
+const USERS_STORAGE_KEY = "users_data";
+
+const getStoredUsers = ():UserItem[] =>{
+  const storedUsers = localStorage.getItem(USERS_STORAGE_KEY);
+
+  if(!storedUsers){
+    return initialUsers;
+  }
+  try{
+    return JSON.parse(storedUsers) as UserItem[];
+  }catch(error){
+    console.error("Failed to parse stored users:", error);
+    return initialUsers;
+  }
+}
+
 const UsersPage = () => {
-  const [users, setUsers] = useState<UserItem[]>(initialUsers);
+  const [users, setUsers] = useState<UserItem[]>(getStoredUsers());
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [roleFilter, setRoleFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<UserItem | null>(null);
+
+  useEffect(() =>{
+    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users))
+  },[users])
 
   const filteredUsers = useMemo(() =>{
     return users.filter((user) =>{
