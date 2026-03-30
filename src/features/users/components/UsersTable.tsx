@@ -1,10 +1,13 @@
+import { Pencil, Trash2 } from "lucide-react";
 import type { UserItem } from "../../../data/Users";
 
 interface UsersTableProps {
-  users: UserItem[];
+  users: UserItem[],
+  onEditUser: (user:UserItem) => void;
+  onDeleteUser: (userId: number) => void;
 }
 
-const UsersTable = ({ users }: UsersTableProps) => {
+const UsersTable = ({ users,onEditUser, onDeleteUser }: UsersTableProps) => {
   if (users.length === 0) {
     return (
       <div className="rounded-2xl border border-gray-100 bg-white p-8 text-center shadow-sm">
@@ -50,6 +53,12 @@ const UsersTable = ({ users }: UsersTableProps) => {
                   >
                     {user.status}
                   </span>
+                </td>
+                <td  className="px-6 py-4 text-center">
+                  <div className="flex items-center gap-2">
+                  <button onClick={() => onEditUser(user)} className="text-blue-500 cursor-pointer hover:text-blue-700"><Pencil size={16}/></button>
+                  <button onClick={() => onDeleteUser(user.id)} className="text-red-500 cursor-pointer hover:text-red-700"><Trash2 /></button>
+                  </div>
                 </td>
               </tr>
             ))}

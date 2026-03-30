@@ -3,6 +3,7 @@ import {users as initialUsers, type UserItem} from './../data/Users'
 import { Plus, Search } from "lucide-react";
 import UsersTable from "../features/users/components/UsersTable";
 import CreateUserModal from "../features/users/components/CreateUserModal";
+import EditUserModal from "../features/users/components/EditUserModal";
 const ITEMS_PER_PAGE = 5
 const UsersPage = () => {
   const [users, setUsers] = useState<UserItem[]>(initialUsers);
@@ -11,6 +12,7 @@ const UsersPage = () => {
   const [roleFilter, setRoleFilter] = useState("All");
   const [statusFilter, setStatusFilter] = useState("All");
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState<UserItem | null>(null);
 
   const filteredUsers = useMemo(() =>{
     return users.filter((user) =>{
@@ -58,6 +60,15 @@ const UsersPage = () => {
     }
     setUsers((prev) => [...prev, newUser])
     setCurrentPage(1)
+  }
+
+  const handleEditUser = (user: UserItem) =>{
+    setUsers(prev => prev.map(u => u.id === user.id ? user : u))
+  }
+  const handleDeleteUser = (userId: number) =>{
+    const confirmed = window.confirm("Are you sure you want to delete this user?");
+  if (!confirmed) return
+    setUsers(prev => prev.filter(u => u.id !== userId))
   }
 
   return (
@@ -117,7 +128,7 @@ const UsersPage = () => {
         </div>
       </div>
       
-          <UsersTable users={paginatedUsers} />
+          <UsersTable onDeleteUser={handleDeleteUser} onEditUser={setEditingUser} users={paginatedUsers} />
      
       <div className='flex items-center justify-between rounded-2xl border border-gray-100 bg-white p-4 shadow-sm'>
         <p className="text-sm text-gray-500">
@@ -146,6 +157,12 @@ const UsersPage = () => {
         isOpen={isCreateModalOpen}
         onClose={() => setIsCreateModalOpen(false)}
         onCreateUser={handleCreateUser}
+      />
+      <EditUserModal
+        user={editingUser}
+        onClose={() => setEditingUser(null)}
+        onUpdateUser={handleEditUser}
+        isOpen={!!editingUser}
       />
     </div>
   );
