@@ -51,19 +51,19 @@ const OrdersPage = () => {
         <p className="text-gray-500 dark:text-gray-400">Track and manage customer orders</p>
       </div>
 
-      <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+      <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm dark:shadow-2xl dark:border-gray-800 dark:bg-gray-900">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="relative w-full max-w-sm">
             <Search
               size={18}
-              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400"
+              className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 dark:text-gray-600"
             />
             <input
               type="text"
               value={searchTerm}
               onChange={(e) => handleSearchChange(e.target.value)}
               placeholder="Search orders..."
-              className="w-full rounded-xl border border-gray-300 py-2.5 pl-10 pr-4 text-sm outline-none transition focus:border-gray-500"
+              className="w-full rounded-xl border border-gray-300 py-2.5 pl-10 pr-4 text-sm outline-none transition focus:border-gray-500 dark:placeholder-gray-600 dark:text-white dark:border-gray-600 dark:focus:border-gray-400 focus:ring-1 focus:ring-gray-500"
             />
           </div>
 
@@ -71,19 +71,19 @@ const OrdersPage = () => {
             <select
               value={statusFilter}
               onChange={(e) => handleStatusFilterChange(e.target.value)}
-              className="rounded-xl border border-gray-300 px-4 py-2.5 text-sm text-gray-700 outline-none transition focus:border-gray-500"
+              className="rounded-xl border border-gray-300 px-4 py-2.5 text-sm text-gray-700 outline-none transition focus:border-gray-500 dark:border-gray-600 dark:text-white dark:focus:border-gray-400"
             >
-              <option value="All">All Statuses</option>
-              <option value="Pending">Pending</option>
-              <option value="Completed">Completed</option>
-              <option value="Cancelled">Cancelled</option>
+              <option className="dark:text-white text-black bg-white dark:bg-gray-800" value="All">All Statuses</option>
+              <option className="dark:text-white text-black bg-white dark:bg-gray-800" value="Pending">Pending</option>
+              <option className="dark:text-white text-black bg-white dark:bg-gray-800" value="Completed">Completed</option>
+              <option className="dark:text-white text-black bg-white dark:bg-gray-800" value="Cancelled">Cancelled</option>
             </select>
           </div>
         </div>
 
-        <div className="mt-4 text-sm text-gray-500">
+        <div className="mt-4 text-sm text-gray-500 dark:text-gray-300">
           Total Orders:{" "}
-          <span className="font-semibold text-gray-900">
+          <span className="font-semibold text-gray-900 dark:text-white">
             {filteredOrders.length}
           </span>
         </div>
@@ -91,18 +91,18 @@ const OrdersPage = () => {
 
       <OrdersTable orders={paginatedOrders} />
 
-      <div className="flex items-center justify-between rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
-        <p className="text-sm text-gray-500">
-          Page <span className="font-semibold text-gray-900">{currentPage}</span>{" "}
+      <div className="flex items-center justify-between rounded-2xl border border-gray-100 bg-white p-4 shadow-sm dark:shadow-2xl dark:border-gray-800 dark:bg-gray-900">
+        <p className="text-sm text-gray-500 dark:text-gray-300">
+          Page <span className="font-semibold text-gray-900 dark:text-white">{currentPage}</span>{" "}
           of{" "}
-          <span className="font-semibold text-gray-900">{totalPages || 1}</span>
+          <span className="font-semibold text-gray-900 dark:text-white">{totalPages || 1}</span>
         </p>
 
-        <div className="flex gap-2">
+        <div className="flex gap-2 dark:text-white dark:bg-gray-900">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:text-white dark:hover:bg-gray-700 dark:disabled:bg-gray-800 dark:disabled:text-gray-400"
           >
             Previous
           </button>
@@ -112,7 +112,7 @@ const OrdersPage = () => {
               setCurrentPage((prev) => Math.min(prev + 1, totalPages || 1))
             }
             disabled={currentPage === totalPages || totalPages === 0}
-            className="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:text-white dark:hover:bg-gray-700 dark:disabled:bg-gray-800 dark:disabled:text-gray-400"
           >
             Next
           </button>

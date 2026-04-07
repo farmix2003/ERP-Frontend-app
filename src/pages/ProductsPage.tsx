@@ -93,7 +93,7 @@ const ProductsPage = () => {
             <select
               value={statusFilter}
               onChange={(e) => handleStatusChange(e.target.value)}
-              className="rounded-xl border border-gray-300 px-4 py-2.5 text-sm text-gray-700 outline-none transition focus:border-gray-500"
+              className="rounded-xl border border-gray-300 px-4 py-2.5 text-sm text-gray-700 outline-none transition focus:border-gray-500 dark:border-gray-600 dark:text-gray-300 dark:focus:border-gray-400"
             >
               <option value="All">All Statuses</option>
               <option value="In Stock">In Stock</option>
@@ -113,18 +113,18 @@ const ProductsPage = () => {
 
       <ProductsTable products={paginatedProducts} />
 
-      <div className="flex items-center justify-between rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
-        <p className="text-sm text-gray-500">
-          Page <span className="font-semibold text-gray-900">{currentPage}</span>{" "}
+      <div className="flex items-center justify-between rounded-2xl border border-gray-100 bg-white p-4 shadow-sm dark:border-gray-800 dark:bg-gray-900 dark:shadow-2xl">
+        <p className="text-sm text-gray-500 dark:text-gray-300">
+          Page <span className="font-semibold text-gray-900 dark:text-white">{currentPage}</span>{" "}
           of{" "}
-          <span className="font-semibold text-gray-900">{totalPages || 1}</span>
+          <span className="font-semibold text-gray-900 dark:text-white">{totalPages || 1}</span>
         </p>
 
         <div className="flex gap-2">
           <button
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
-            className="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:text-white dark:hover:bg-gray-700 dark:disabled:bg-gray-800 dark:disabled:text-gray-400"
           >
             Previous
           </button>
@@ -134,7 +134,7 @@ const ProductsPage = () => {
               setCurrentPage((prev) => Math.min(prev + 1, totalPages || 1))
             }
             disabled={currentPage === totalPages || totalPages === 0}
-            className="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50"
+            className="rounded-xl border border-gray-300 px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-100 disabled:cursor-not-allowed disabled:opacity-50 dark:border-gray-600 dark:text-white dark:hover:bg-gray-700 dark:disabled:bg-gray-800 dark:disabled:text-gray-400"
           >
             Next
           </button>
