@@ -1,14 +1,23 @@
 import { createBrowserRouter, Navigate } from "react-router-dom";
-import LoginPage from "../../features/auth/pages/LoginPage";
 import ProtectedRoute from "../../features/auth/components/ProtectedRoute";
 import AppLayout from "../../components/layout/AppLayout";
-import DashboardPage from "../../pages/DashboardPage";
-import UsersPage from "../../pages/UsersPage";
-import OrdersPage from "../../pages/OrdersPage";
-import ProductsPage from "../../pages/ProductsPage";
-import AnalyticsPage from "../../pages/AnalyticsPage";
-import SettingsPage from "../../pages/SettingsPage";
-import NotFoundPage from "../../pages/NotFoundPage";
+import React, { lazy, Suspense } from "react";
+import PageLoader from "../../components/shared/PageLoader";
+
+
+const LoginPage =  lazy(() => import("../../features/auth/pages/LoginPage"));
+const DashboardPage =  lazy(() => import("../../pages/DashboardPage"));
+const UsersPage =  lazy(() => import("../../pages/UsersPage"));
+const OrdersPage =  lazy(() => import("../../pages/OrdersPage"));
+const ProductsPage =  lazy(() => import("../../pages/ProductsPage"));
+const AnalyticsPage =  lazy(() => import("../../pages/AnalyticsPage"));
+const SettingsPage =  lazy(() => import("../../pages/SettingsPage"));
+const NotFoundPage =  lazy(() => import("../../pages/NotFoundPage"));
+
+const withSuspense = (component: React.ReactNode) =>(
+  <Suspense fallback={<PageLoader />}>{component}</Suspense>
+)
+
 
 export const router = createBrowserRouter([
   {
@@ -17,7 +26,7 @@ export const router = createBrowserRouter([
   },
   {
     path: "/login",
-    element: <LoginPage />,
+    element: withSuspense(<LoginPage />),
   },
   {
     element: <ProtectedRoute />,
@@ -27,27 +36,27 @@ export const router = createBrowserRouter([
         children: [
           {
             path: "/dashboard",
-            element: <DashboardPage />,
+            element: withSuspense(<DashboardPage />),
           },
           {
             path: "/users",
-            element: <UsersPage />,
+            element: withSuspense(<UsersPage />),
           },
           {
             path: "/orders",
-            element: <OrdersPage />,
+            element: withSuspense(<OrdersPage />),
           },
           {
             path: "/products",
-            element: <ProductsPage />,
+            element: withSuspense(<ProductsPage />),
           },
           {
             path: "/analytics",
-            element: <AnalyticsPage />,
+            element: withSuspense(<AnalyticsPage />),
           },
           {
             path: "/settings",
-            element: <SettingsPage />,
+            element: withSuspense(<SettingsPage />),
           },
         ],
       },
@@ -55,6 +64,6 @@ export const router = createBrowserRouter([
   },
   {
     path: "*",
-    element: <NotFoundPage />,
+    element: withSuspense(<NotFoundPage />),
   },
 ]);
