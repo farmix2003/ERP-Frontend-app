@@ -4,7 +4,7 @@ import Navbar from "./Navbar";
 
 const AppLayout = () => {
   return (
-    <div className="min-h-screen bg-gray-100 lg:flex">
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-950 flex">
       <Sidebar />
 
       <div className="flex flex-1 flex-col lg:ml-0">

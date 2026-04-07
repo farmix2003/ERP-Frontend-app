@@ -47,8 +47,8 @@ const OrdersPage = () => {
    return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">Orders</h2>
-        <p className="text-gray-500">Track and manage customer orders</p>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Orders</h2>
+        <p className="text-gray-500 dark:text-gray-400">Track and manage customer orders</p>
       </div>
 
       <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">

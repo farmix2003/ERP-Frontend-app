@@ -57,11 +57,11 @@ const ProductsPage = () => {
   return (
     <div className="space-y-6">
       <div>
-        <h2 className="text-2xl font-bold text-gray-900">Products</h2>
-        <p className="text-gray-500">Manage product inventory and stock levels</p>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Products</h2>
+        <p className="text-gray-500 dark:text-gray-400">Manage product inventory and stock levels</p>
       </div>
 
-      <div className="rounded-2xl border border-gray-100 bg-white p-4 shadow-sm">
+      <div className="rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-sm dark:shadow-2xl">
         <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
           <div className="relative w-full max-w-sm">
             <Search
@@ -73,7 +73,7 @@ const ProductsPage = () => {
               value={search}
               onChange={(e) => handleSearchChange(e.target.value)}
               placeholder="Search products..."
-              className="w-full rounded-xl border border-gray-300 py-2.5 pl-10 pr-4 text-sm outline-none transition focus:border-gray-500"
+              className="w-full rounded-xl border border-gray-300 dark:border-gray-600 py-2.5 pl-10 pr-4 text-sm text-gray-900 dark:text-white outline-none transition bg-transparent focus:border-gray-500 dark:focus:border-blue-400 focus:ring-1 focus:ring-gray-500"
             />
           </div>
 
@@ -81,7 +81,7 @@ const ProductsPage = () => {
             <select
               value={categoryFilter}
               onChange={(e) => handleCategoryChange(e.target.value)}
-              className="rounded-xl border border-gray-300 px-4 py-2.5 text-sm text-gray-700 outline-none transition focus:border-gray-500"
+              className="rounded-xl border border-gray-300 dark:border-gray-600 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 outline-none transition focus:border-gray-500 dark:focus:border-gray-400"
             >
               <option value="All">All Categories</option>
               <option value="Electronics">Electronics</option>

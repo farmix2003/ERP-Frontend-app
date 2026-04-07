@@ -31,8 +31,8 @@ const DashboardPage = () => {
   return (
     <div className="space-y-6">
     <div>
-      <h2 className="text-2xl font-bold text-gray-900">Dashboard Overview</h2>
-      <p className="text-gray-500">Monitor your business perfomance</p>
+      <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Dashboard Overview</h2>
+      <p className="text-gray-500 dark:text-gray-400">Monitor your business perfomance</p>
     </div>
     <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-4">
       {
@@ -42,11 +42,11 @@ const DashboardPage = () => {
       }
     </div>
 
-    <div className="rounded-2xl bg-white p-6 shadow-sm border border-gray-100">
-        <h3 className="text-lg font-semibold text-gray-900">
+    <div className="rounded-2xl bg-white dark:bg-gray-900 p-6 shadow-sm dark:shadow-2xl border border-gray-100 dark:border-gray-800">
+        <h3 className="text-lg font-semibold text-gray-900 dark:text-white">
           Recent Activity
         </h3>
-        <p className="mt-2 text-gray-500">
+        <p className="mt-2 text-gray-500 dark:text-gray-400">
           Activity feed will be displayed here.
         </p>
       </div>

@@ -98,8 +98,8 @@ const UsersPage = () => {
     <div className="space-y-6">
       <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
       <div>
-          <h2 className="text-2xl font-bold text-gray-900">Users</h2>
-          <p className="text-gray-600">Manage system users and their acces</p>
+        <h2 className="text-2xl font-bold text-gray-900 dark:text-white">Users</h2>
+          <p className="text-gray-600 dark:text-gray-400">Manage system users and their acces</p>
       </div>
       
       <button
@@ -111,14 +111,14 @@ const UsersPage = () => {
       </button>
       </div>
 
-      <div className="flex flex-col gap-4 roundend-2xl border border-gray-100 bg-white p-4 shadow-sm sm:flex-row sm:items-center sm:justify-between">
+      <div className="flex flex-col gap-4 rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-sm dark:shadow-2xl sm:flex-row sm:items-center sm:justify-between">
         <div className="relative w-full max-w-sm">
           <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400" size={18} />
           <input 
            type="text"
            placeholder="Search users..."
            value={search}
-            className="w-full rounded-md border border-gray-300 bg-transparent py-2 pl-10 pr-4 text-sm focus:border-blue-500 focus:ring-blue-500"
+            className="w-full rounded-md border border-gray-300 dark:border-gray-600 bg-transparent py-2 pl-10 pr-4 text-sm text-gray-900 dark:text-white focus:border-blue-500 dark:focus:border-blue-400 focus:ring-blue-500"
            onChange={(e) => handleSearchChange(e.target.value)}
           />
         </div>
@@ -127,7 +127,7 @@ const UsersPage = () => {
           <select 
           value={roleFilter} 
           onChange={(e) => handleRoleFilterChange(e.target.value)}
-          className="rounded-xl border border-gray-300 px-4 py-2.5 text-sm text-gray-700 outline-none focus:border-gray-500"
+          className="rounded-xl border border-gray-300 dark:border-gray-600 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 outline-none focus:border-gray-500 dark:focus:border-gray-400"
             >
             <option value="All">All Roles</option>
             <option value="Admin">Admin</option>
@@ -138,7 +138,7 @@ const UsersPage = () => {
           <select
           value={statusFilter} 
           onChange={(e) => handleStatusFilterChange(e.target.value)}
-          className="rounded-xl border border-gray-300 px-4 py-2.5 text-sm text-gray-700 outline-none focus:border-gray-500"
+          className="rounded-xl border border-gray-300 dark:border-gray-600 px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 outline-none focus:border-gray-500 dark:focus:border-gray-400"
             >
             <option value="All">All Statuses</option>
             <option value="Active">Active</option>
@@ -146,14 +146,14 @@ const UsersPage = () => {
             </select>
         </div>
 
-        <div className="text-sm text-gray-500">
-          Total Users: <span className="font-semibold text-gray-900">{filteredUsers.length}</span>
+        <div className="text-sm text-gray-500 dark:text-gray-400">
+          Total Users: <span className="font-semibold text-gray-900 dark:text-white">{filteredUsers.length}</span>
         </div>
       </div>
       
           <UsersTable onDeleteUser={handleDeleteUser} onEditUser={setEditingUser} users={paginatedUsers} />
      
-      <div className='flex items-center justify-between rounded-2xl border border-gray-100 bg-white p-4 shadow-sm'>
+      <div className='flex items-center justify-between rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-sm dark:shadow-2xl'>
         <p className="text-sm text-gray-500">
           Page <span className="font-semibold text-gray-900">{currentPage}</span> of{" "}
           <span className="font-semibold text-gray-900">{totalPages || 1}</span>
@@ -161,14 +161,14 @@ const UsersPage = () => {
 
         <div className="flex gap-2">
           <button
-            className="rounded-md cursor-pointer disabled:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300"
+            className="rounded-md cursor-pointer disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:text-gray-300 disabled:cursor-not-allowed bg-gray-200 dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
             onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
             disabled={currentPage === 1}
           >
             Previous
           </button>
           <button
-            className="rounded-md cursor-pointer disabled:bg-gray-100 disabled:text-gray-300 disabled:cursor-not-allowed bg-gray-200 px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-300"
+            className="rounded-md cursor-pointer disabled:bg-gray-100 dark:disabled:bg-gray-800 disabled:text-gray-300 disabled:cursor-not-allowed bg-gray-200 dark:bg-gray-800 px-4 py-2 text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-300 dark:hover:bg-gray-700"
             onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages || 1))}
             disabled={currentPage === (totalPages || 1)}
           >
