@@ -4,13 +4,13 @@ import Navbar from "./Navbar";
 
 const AppLayout = () => {
   return (
-    <div className="flex min-h-screen bg-gray-100">
+    <div className="min-h-screen bg-gray-100 lg:flex">
       <Sidebar />
 
-      <div className="flex flex-1 flex-col">
+      <div className="flex flex-1 flex-col lg:ml-0">
         <Navbar />
 
-        <main className="flex-1 p-6">
+        <main className="flex-1 p-6 sm:p-6">
           <Outlet />
         </main>
       </div>

@@ -21,14 +21,15 @@ const UsersTable = ({ users,onEditUser, onDeleteUser }: UsersTableProps) => {
 
   return (
     <div className="overflow-hidden rounded-2xl border border-gray-100 bg-white shadow-sm">
-      <div className="overflow-x-auto">
+      <div className="overflow-x-hidden">
         <table className="min-w-full">
           <thead className="bg-gray-50">
             <tr className="text-left text-sm text-gray-500">
               <th className="px-6 py-4 font-medium">Name</th>
-              <th className="px-6 py-4 font-medium">Email</th>
+              <th className="px-6 py-4 hidden lg:block font-medium">Email</th>
               <th className="px-6 py-4 font-medium">Role</th>
               <th className="px-6 py-4 font-medium">Status</th>
+              <th className="px-6 py-4 font-medium text-center">Actions</th>
             </tr>
           </thead>
 
@@ -41,7 +42,7 @@ const UsersTable = ({ users,onEditUser, onDeleteUser }: UsersTableProps) => {
                 <td className="px-6 py-4 font-medium text-gray-900">
                   {user.name}
                 </td>
-                <td className="px-6 py-4">{user.email}</td>
+                <td className="px-6 hidden lg:block py-4">{user.email}</td>
                 <td className="px-6 py-4">{user.role}</td>
                 <td className="px-6 py-4">
                   <span
