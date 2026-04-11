@@ -42,11 +42,6 @@ const EditUserModal = ({
             setError("Name and email are required.")
             return;
         }
-        const emailRegex = /^[^\\s@]+@[^\s@]+\\.[^\s@]+$/;
-        if(!emailRegex.test(trimmedEmail)){
-            setError("Please enter a valid email address.")
-            return;
-        }
         onUpdateUser({
             ...user,
             id: user.id,

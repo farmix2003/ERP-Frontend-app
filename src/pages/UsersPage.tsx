@@ -1,31 +1,17 @@
 import { useEffect, useMemo, useState } from "react";
-import {users as initialUsers} from './../data/Users'
 import type { UserItem } from "../data/Users";
 import { Plus, Search } from "lucide-react";
 import UsersTable from "../features/users/components/UsersTable";
 import CreateUserModal from "../features/users/components/CreateUserModal";
 import EditUserModal from "../features/users/components/EditUserModal";
-
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { createUser, deleteUser, editUser, fetchUsers } from "../services/Users";
 
 const ITEMS_PER_PAGE = 5
-const USERS_STORAGE_KEY = "users_data";
 
-const getStoredUsers = ():UserItem[] =>{
-  const storedUsers = localStorage.getItem(USERS_STORAGE_KEY);
-
-  if(!storedUsers){
-    return initialUsers;
-  }
-  try{
-    return JSON.parse(storedUsers) as UserItem[];
-  }catch(error){
-    console.error("Failed to parse stored users:", error);
-    return initialUsers;
-  }
-}
 
 const UsersPage = () => {
-  const [users, setUsers] = useState<UserItem[]>(getStoredUsers());
+const queryClient = useQueryClient()
   const [search, setSearch] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [roleFilter, setRoleFilter] = useState("All");
@@ -33,9 +19,43 @@ const UsersPage = () => {
   const [isCreateModalOpen, setIsCreateModalOpen] = useState(false);
   const [editingUser, setEditingUser] = useState<UserItem | null>(null);
 
-  useEffect(() =>{
-    localStorage.setItem(USERS_STORAGE_KEY, JSON.stringify(users))
-  },[users])
+  const {data: users = [], isLoading, isError} = useQuery({
+    queryKey: ["users"],
+    queryFn: fetchUsers,
+  })
+
+  const createMutation = useMutation({
+    mutationFn: createUser,
+    onSuccess: () =>{
+      queryClient.invalidateQueries({queryKey: ["users"]})
+      setIsCreateModalOpen(false)
+    }
+  })
+
+  const updateMutation = useMutation({
+    mutationFn: editUser,
+    onSuccess: () =>{
+      queryClient.invalidateQueries({queryKey: ["users"]})
+      setEditingUser(null)
+    }
+  })
+
+  const deleteMutation = useMutation({
+    mutationFn: deleteUser,
+    onSuccess: () =>{
+      queryClient.invalidateQueries({queryKey: ["users"]})
+    }
+  })
+
+  const handleCreateUser = (user: Omit<UserItem, "id">) =>{
+    createMutation.mutate(user)
+  }
+  const handleEditUser = (user: UserItem) =>{
+    updateMutation.mutate(user)
+  }
+  const handleDeleteUser = (userId: number) =>{
+    deleteMutation.mutate(userId)
+  }
 
   const filteredUsers = useMemo(() =>{
     return users.filter((user) =>{
@@ -76,23 +96,13 @@ const UsersPage = () => {
     setCurrentPage(1)
   }
 
-  const handleCreateUser = (user: Omit<UserItem, "id">) =>{
-    const newUser: UserItem = {
-      id: users.length + 1,
-      ...user
-    }
-    setUsers((prev) => [...prev, newUser])
-    setCurrentPage(1)
+  if(isLoading){
+    return <div className="text-center text-gray-500 dark:text-gray-200 ">Loading users...</div>
   }
-
-  const handleEditUser = (user: UserItem) =>{
-    setUsers(prev => prev.map(u => u.id === user.id ? user : u))
+  if(isError){
+    return <div className="text-center text-red-500">Failed to load users. Please try again later.</div>
   }
-  const handleDeleteUser = (userId: number) =>{
-    const confirmed = window.confirm("Are you sure you want to delete this user?");
-  if (!confirmed) return
-    setUsers(prev => prev.filter(u => u.id !== userId))
-  }
+  
 
   return (
     <div className="space-y-6">
@@ -155,8 +165,8 @@ const UsersPage = () => {
      
       <div className='flex items-center justify-between rounded-2xl border border-gray-100 dark:border-gray-800 bg-white dark:bg-gray-900 p-4 shadow-sm dark:shadow-2xl'>
         <p className="text-sm text-gray-500">
-          Page <span className="font-semibold text-gray-900">{currentPage}</span> of{" "}
-          <span className="font-semibold text-gray-900">{totalPages || 1}</span>
+          Page <span className="font-semibold text-gray-900 dark:text-gray-200">{currentPage}</span> of{" "}
+          <span className="font-semibold text-gray-900 dark:text-gray-200">{totalPages || 1}</span>
         </p>
 
         <div className="flex gap-2">
