@@ -26,23 +26,80 @@ const queryClient = useQueryClient()
 
   const createMutation = useMutation({
     mutationFn: createUser,
+
+    onMutate: async (newUser) =>{
+      await queryClient.cancelQueries({queryKey: ['users']})
+      const previousUsers = queryClient.getQueryData<UserItem[]>(["users"]) || []
+      const tempId = Math.max(0, ...previousUsers.map((u) => u.id)) + 1
+      const optimisticUser = {...newUser, id: tempId}
+      queryClient.setQueryData<UserItem[]>(["users"], [...previousUsers, optimisticUser])
+      return {previousUsers}
+    },
+
     onSuccess: () =>{
       queryClient.invalidateQueries({queryKey: ["users"]})
       setIsCreateModalOpen(false)
-    }
+    },
+    
+    onError: (_error, _newUser, context) =>{
+      if(context?.previousUsers){
+        queryClient.setQueryData(["users"], context.previousUsers)
+      }
+
+      setIsCreateModalOpen(false)
+    },
+      onSettled: () =>{
+        queryClient.invalidateQueries({queryKey: ["users"]})
+      }
+    
   })
 
   const updateMutation = useMutation({
     mutationFn: editUser,
+
+    onMutate: async (updatedUser) =>{
+      await queryClient.cancelQueries({queryKey: ['users']})
+
+      const previousUsers = queryClient.getQueryData<UserItem[]>(["users"]) || []
+      queryClient.setQueryData<UserItem[]>(["users"], previousUsers.map((user) => user.id === updatedUser.id ? updatedUser : user))
+      return {previousUsers}
+    },
+
     onSuccess: () =>{
       queryClient.invalidateQueries({queryKey: ["users"]})
       setEditingUser(null)
-    }
+    },
+    onError: (_error, _updatedUser, context) =>{
+      if(context?.previousUsers){
+        queryClient.setQueryData(["users"], context.previousUsers)
+      }
+      setEditingUser(null)
+    },
+      onSettled: () =>{
+        queryClient.invalidateQueries({queryKey: ["users"]})
+      }
   })
 
   const deleteMutation = useMutation({
     mutationFn: deleteUser,
+
+    onMutate: async (userId) =>{
+      await queryClient.cancelQueries({queryKey: ["users"]})
+
+      const previousUsers = queryClient.getQueryData<UserItem[]>(["users"]) || []
+      queryClient.setQueryData<UserItem[]>(["users"], previousUsers.filter((user) => user.id !== userId))
+      return {previousUsers}
+    },
+
     onSuccess: () =>{
+      queryClient.invalidateQueries({queryKey: ["users"]})
+    },
+    onError: (_error, _userId, context) =>{
+      if(context?.previousUsers){
+        queryClient.setQueryData(["users"], context.previousUsers)
+      }
+    },
+    onSettled: () =>{
       queryClient.invalidateQueries({queryKey: ["users"]})
     }
   })
